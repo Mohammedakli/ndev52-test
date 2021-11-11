@@ -1,0 +1,74 @@
+
+<div class="container">
+  <div class="border">
+    <button class="btn btn-md btn-outline-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+      <i class="fa fa-user"></i>New User</button>
+  </div>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>Firstname</th>
+      <th>Lastname</th>
+      <th>Birth Date</th>
+   </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor = 'let row of userData'>
+
+      <td><span>{{row.firstName}}</span></td>
+      <td><span>{{row.lastName}}</span></td>
+      <td><span>{{row.bithDate}}</span></td>
+      <td>
+        <button (click)='onEdit(row)' class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#myModal">
+          <i class="fa fa-edit"></i>Edit</button>
+        <button (click)='deleteUser(row)' class="btn btn-sm btn-danger">
+          <i class="fa fa-remove"  ></i>Delete</button>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal" id="myModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <form [formGroup] = "formValue">
+      <div class="modal-body" >
+        <label for="text" class="form-label">Firstname:</label>
+        <input type="text" class="form-control" formControlName = "firstName" id="email" placeholder="Enter your firstname" name="email">
+      </div>
+      <div class="modal-body">
+        <label for="text" class="form-label">Lastname:</label>
+        <input type="text" class="form-control" formControlName = "lastName" id="pwd" placeholder="Enter your lastname" name="pswd">
+      </div>
+        <div class="modal-body">
+          <label for="date" class="form-label">Birth Date:</label>
+          <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">  <input class="span2" formControlName = "bithDate" size="16" type="text" value="12-02-2012">  <span class="add-on"><i class="icon-th"></i></span></div>
+
+        </div>
+
+
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id = "cancel" data-bs-dismiss="modal">Close</button>
+
+        <button type="button" (click) = "postUsers()" class="btn btn-primary" data-bs-dismiss="modal" >Submit</button>
+
+        <button type="button" (click) = "updateUsers()" class="btn btn-primary" data-bs-dismiss="modal" >Update</button>
+
+
+    </div>
+    </form>
+
+  </div>
+</div>
+
