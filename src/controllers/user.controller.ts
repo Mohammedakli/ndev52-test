@@ -8,14 +8,14 @@ import {
   Post,
   Put,
   Res,
-} from '@nestjs/common';
-import { User } from 'src/schemas/user.schema';
-import { UserService } from 'src/services/user.service';
+} from "@nestjs/common";
+import { User } from "src/schemas/user.schema";
+import { UserService } from "src/services/user.service";
 
-@Controller('users')
+@Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
+  // déffinir la route pour créer un utillisateur {/users}
   @Post()
   async createUser(@Res() response, @Body() user: User) {
     const newBook = await this.userService.create(user);
@@ -23,7 +23,7 @@ export class UserController {
       newBook,
     });
   }
-
+  // déffinir la route pour afficher tous les utilisateurs {/users}
   @Get()
   async fetchAll(@Res() response) {
     const users = await this.userService.readAll();
@@ -31,25 +31,17 @@ export class UserController {
       users,
     });
   }
-
-  @Get('/:id')
-  async findById(@Res() response, @Param('id') id) {
-    const user = await this.userService.readById(id);
-    return response.status(HttpStatus.OK).json({
-      user,
-    });
-  }
-
-  @Put('/:id')
-  async update(@Res() response, @Param('id') id, @Body() user: User) {
+  // déffinir la route pour modifier un utillisateur {/users/:id}
+  @Put("/:id")
+  async update(@Res() response, @Param("id") id: string, @Body() user: User) {
     const updatedUser = await this.userService.update(id, user);
     return response.status(HttpStatus.OK).json({
       updatedUser,
     });
   }
-
-  @Delete('/:id')
-  async delete(@Res() response, @Param('id') id) {
+  // déffinir la route pour supprimer un utillisateur /users/:id}
+  @Delete("/:id")
+  async delete(@Res() response, @Param("id") id: string) {
     const deletedUser = await this.userService.delete(id);
     return response.status(HttpStatus.OK).json({
       deletedUser,
