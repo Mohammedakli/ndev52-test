@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit {
   getAllUsers() {
     this.api.getUser().subscribe((res) => {
       this.userData = res.users;
-      console.log(res.users);
     });
   }
 
