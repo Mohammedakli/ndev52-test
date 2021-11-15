@@ -16,6 +16,8 @@ const serve_static_1 = require("@nestjs/serve-static");
 const path_1 = require("path");
 const dotenv = require("dotenv");
 console.log("my path :", __dirname);
+process.env.PWD = process.cwd();
+console.log(process.env.PWD);
 dotenv.config();
 let AppModule = class AppModule {
 };
@@ -23,7 +25,7 @@ AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             serve_static_1.ServeStaticModule.forRoot({
-                rootPath: (0, path_1.join)(__dirname, "..", "client"),
+                rootPath: (0, path_1.join)(process.env.PWD, "/dist/client"),
             }),
             mongoose_1.MongooseModule.forRoot(process.env.MONGODB_LINK),
             mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }]),
