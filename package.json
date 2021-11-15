@@ -33,6 +33,7 @@
     "dotenv": "^10.0.0",
     "mongoose": "^6.0.12",
     "nvm": "0.0.4",
+    "path": "^0.12.7",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
@@ -77,10 +78,9 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }, 
+  },
   "engines": {
-    "npm" :  "8.1.0",
-    "node" : "16.13.0"
-
+    "npm": "8.1.0",
+    "node": "16.13.0"
   }
 }
