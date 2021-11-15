@@ -8,12 +8,12 @@ import { UserController } from "./controllers/user.controller";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import * as dotenv from "dotenv";
-
+console.log("my path :", __dirname);
 dotenv.config();
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "client", "index.html"),
+      rootPath: join("D:\\ndev52-test\\dist\\src", "..", "client"),
     }),
     MongooseModule.forRoot(process.env.MONGODB_LINK),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
