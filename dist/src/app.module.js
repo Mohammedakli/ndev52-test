@@ -25,7 +25,7 @@ AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             serve_static_1.ServeStaticModule.forRoot({
-                rootPath: (0, path_1.join)(process.env.PWD, "/dist/client"),
+                rootPath: (0, path_1.join)(__dirname, "..", "client"),
             }),
             mongoose_1.MongooseModule.forRoot(process.env.MONGODB_LINK),
             mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }]),
