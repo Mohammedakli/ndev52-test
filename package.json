@@ -6,10 +6,11 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "postinstall": "tsc — sourceMap false",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "node dist/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -77,5 +78,10 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  }, 
+  "engines": {
+    "npm" :  "8.1.0",
+    "node" : "16.13.0"
+
   }
 }
