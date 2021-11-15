@@ -13,7 +13,7 @@ dotenv.config();
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join("D:\\ndev52-test\\dist\\src", "..", "client"),
+      rootPath: join(__dirname, "..", "client"),
     }),
     MongooseModule.forRoot(process.env.MONGODB_LINK),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
