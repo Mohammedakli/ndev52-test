@@ -16,7 +16,7 @@ dotenv.config();
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "../../../dist/", "client/src"),
+      rootPath: join(__dirname, "..", "client"),
     }),
     MongooseModule.forRoot(process.env.MONGODB_LINK),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
