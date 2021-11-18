@@ -3,6 +3,8 @@ import {
   ComponentFixture,
   fakeAsync,
   tick,
+  async,
+  inject,
 } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home.component';
@@ -11,44 +13,69 @@ import { User } from './home.component.model';
 import { of } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { delay } from 'rxjs/operators';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 
 describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
   let apiService: ApiService;
-  let user: User;
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [HomeComponent],
-      providers: [ApiService, FormBuilder],
-      imports: [HttpClientModule],
-    }).compileComponents();
-  });
+  let httpMock: HttpTestingController;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent],
-      providers: [ApiService],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
+      providers: [ApiService, FormBuilder],
+      imports: [HttpClientTestingModule],
+    });
     apiService = TestBed.get(ApiService);
-    user = new User();
+    httpMock = TestBed.get(HttpTestingController);
   });
 
-  it('On init users should be loaded', fakeAsync(() => {
-    spyOn(apiService, 'getUser').and.returnValue(of(user).pipe(delay(1)));
+  it(`should GET users`, async(
+    inject(
+      [HttpTestingController, ApiService],
+      (httpClient: HttpTestingController, apiService: ApiService) => {
+        const User = [
+          {
+            id: 1,
+            firstName: 'Lucas',
+            lastName: 'Hernandez',
+            birthdate: '20/20/2005',
+          },
+          {
+            id: 2,
+            firstName: 'Lucas',
+            lastName: 'Hernandez',
+            birthdate: '20/20/2005',
+          },
+          {
+            id: 3,
+            firstName: 'Lucas',
+            lastName: 'Hernandez',
+            birthdate: '20/20/2005',
+          },
+        ];
 
-    // Trigger ngOnInit()
-    fixture.detectChanges();
+        apiService.getUser().subscribe((users: any) => {
+          expect(users.length).toBe(3);
+        });
 
-    expect(component.users).toBeUndefined();
-    expect(apiService.getUser).toHaveBeenCalledWith();
+        const req = httpMock.expectOne('http://localhost:3001/users/');
+        expect(req.request.method).toBe('GET');
 
-    // Simulates the asynchronous passage of time
-    tick(1);
+        req.flush(User);
+        httpMock.verify();
+      }
+    )
+  ));
+  it('should call POST API to create a new user', () => {
+    apiService.postUser(User).subscribe();
 
-    expect(component.users).toEqual(user);
-  }));
+    const req = httpMock.expectOne({
+      method: 'POST',
+      url: 'http://localhost:3001/users/',
+    });
+    expect(req.request.body).toEqual(User);
+  });
 });

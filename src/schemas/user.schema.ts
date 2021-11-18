@@ -13,7 +13,6 @@ export class User {
 
   @Prop()
   birthDate: Date;
-  timestamps: true;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
