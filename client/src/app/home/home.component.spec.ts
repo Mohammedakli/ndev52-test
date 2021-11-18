@@ -1,18 +1,8 @@
-import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick,
-  async,
-  inject,
-} from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { TestBed, async, inject } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { ApiService } from '../shared/api.service';
 import { User } from './home.component.model';
-import { of } from 'rxjs';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { delay } from 'rxjs/operators';
+import { FormBuilder } from '@angular/forms';
 import {
   HttpClientTestingModule,
   HttpTestingController,
