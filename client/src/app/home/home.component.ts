@@ -4,7 +4,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { User } from './home.component.model';
 import { ApiService } from '../shared/api.service';
 import { CreateUser } from './home.createModel';
-
+import { formatDate } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
+import localeES from '@angular/common/locales/es';
+registerLocaleData(localeES, 'es');
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -42,7 +45,7 @@ export class HomeComponent implements OnInit {
         alert('add success');
         const ref = document.getElementById('cancel');
         ref?.click(); //fermer la Modal form après le submit
-
+        this.formValue.reset();
         this.getAllUsers(); //Appel de la fonction getAllusers pour retouner les derniers enregistrements sur la BDD
       },
       (err) => {
@@ -74,7 +77,11 @@ export class HomeComponent implements OnInit {
     this.users._id = row._id;
     this.formValue.controls['firstName'].setValue(row.firstName);
     this.formValue.controls['lastName'].setValue(row.lastName);
-    this.formValue.controls['birthDate'].setValue(row.birthDate);
+    const format = 'dd/MM/yyyy';
+    const myDate = row.birthDate;
+    const locale = 'en-US';
+    const formattedDate = formatDate(myDate, format, locale);
+    this.formValue.controls['birthDate'].setValue(formattedDate);
   }
   // modifier un utilisateur
   updateUsers() {
