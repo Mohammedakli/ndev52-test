@@ -4,23 +4,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { User } from './home.component.model';
 import { ApiService } from '../shared/api.service';
 import { CreateUser } from './home.createModel';
-
-// export class User {
-//   constructor(
-//     public _id: number,
-//     public firstName: string = '',
-//     public lastName: string = '',
-//     public bithDate: string = ''
-//   ) {}
-// }
+import { formatDate } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
+import localeES from '@angular/common/locales/es';
+registerLocaleData(localeES, 'es');
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  users: User = new User();
-  createUser: CreateUser = new CreateUser();
+  users: User = new User(); //créer un nouveau schema pour le /GET /EDIT /DELETE
+  createUser: CreateUser = new CreateUser(); //créer un nouveau schema pour le /POST
   formValue!: FormGroup;
   userData!: any;
   constructor(
@@ -31,39 +26,41 @@ export class HomeComponent implements OnInit {
     this.formValue = this.formbuilder.group({
       firstName: [''],
       lastName: [''],
-      bithDate: [''],
+      birthDate: [''],
     });
   }
 
   ngOnInit(): void {
     this.getAllUsers();
   }
-
+  // Créer un utilisateur
   postUsers() {
     this.createUser.firstName = this.formValue.value.firstName;
     this.createUser.lastName = this.formValue.value.lastName;
-    this.createUser.bithDate = this.formValue.value.bithDate;
+    this.createUser.birthDate = this.formValue.value.birthDate;
 
     this.api.postUser(this.createUser).subscribe(
       (res) => {
         console.log(res);
         alert('add success');
         const ref = document.getElementById('cancel');
-        ref?.click();
-        this.formValue.reset;
-        this.getAllUsers();
+        ref?.click(); //fermer la Modal form après le submit
+        this.formValue.reset();
+        this.getAllUsers(); //Appel de la fonction getAllusers pour retouner les derniers enregistrements sur la BDD
       },
       (err) => {
         console.log(err);
       }
     );
   }
+  //Afficher tous les utilisateurs
   getAllUsers() {
     this.api.getUser().subscribe((res) => {
       this.userData = res.users;
-      console.log(res.users);
     });
   }
+
+  // Supprimer un utilisateur
   deleteUser(row: any) {
     this.api.deleteUser(row._id).subscribe(
       (res) => {
@@ -75,23 +72,27 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-
+  //récuperation des donnéespar ID pour les afficher dans la Modal form
   onEdit(row: any) {
     this.users._id = row._id;
     this.formValue.controls['firstName'].setValue(row.firstName);
     this.formValue.controls['lastName'].setValue(row.lastName);
-    this.formValue.controls['bithDate'].setValue(row.bithDate);
+    const format = 'dd/MM/yyyy';
+    const myDate = row.birthDate;
+    const locale = 'en-US';
+    const formattedDate = formatDate(myDate, format, locale);
+    this.formValue.controls['birthDate'].setValue(formattedDate);
   }
-
+  // modifier un utilisateur
   updateUsers() {
     this.users.firstName = this.formValue.value.firstName;
     this.users.lastName = this.formValue.value.lastName;
-    this.users.bithDate = this.formValue.value.bithDate;
+    this.users.birthDate = this.formValue.value.birthDate;
     this.api.updateUser(this.users, this.users._id).subscribe((res) => {
       alert('updated succesfully');
       const ref = document.getElementById('cancel');
       ref?.click();
-      this.formValue.reset;
+      this.formValue.reset(); //actualiser la Modal form
       this.getAllUsers();
     });
   }
