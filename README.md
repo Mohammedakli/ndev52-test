@@ -1,7 +1,7 @@
 Une application web qui permet de mettre en place une Table édition des personnes. cette derniere contient les fonctionnalités suivantes : 
-  - Affichage des personnes enrigitrer dans la base de données.
-  - Ajout d'un personne.
-  - Modiffication des information d'une personne.
+  - Affichage des personnes enregistrer dans la base de données.
+  - Ajout d'une personne.
+  - Modification des informations d'une personne.
   - Suppression d'une personne.
 
 Technologies utilisées:
